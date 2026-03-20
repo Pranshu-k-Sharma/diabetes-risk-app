@@ -22,6 +22,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Generate model artifacts
+        run: python backend/train_model.py
+
       - name: Run backend tests
         run: pytest --cov=app --cov-report=term-missing
 
