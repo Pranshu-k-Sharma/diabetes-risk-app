@@ -1,0 +1,30 @@
+# Python virtual environments
+.venv/
+.venv313/
+env/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

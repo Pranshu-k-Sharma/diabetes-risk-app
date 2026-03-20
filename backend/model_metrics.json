@@ -1,0 +1,25 @@
+{
+  "accuracy": 0.5,
+  "precision": 0.5,
+  "recall": 1.0,
+  "f1_score": 0.6667,
+  "roc_auc": 1.0,
+  "train_size": 8,
+  "test_size": 2,
+  "feature_count": 8,
+  "class_distribution": {
+    "negative": 4,
+    "positive": 6
+  },
+  "confusion_matrix": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      1
+    ]
+  ],
+  "classification_report": "              precision    recall  f1-score   support\n\n No Diabetes       0.00      0.00      0.00         1\n    Diabetes       0.50      1.00      0.67         1\n\n    accuracy                           0.50         2\n   macro avg       0.25      0.50      0.33         2\nweighted avg       0.25      0.50      0.33         2\n"
+}
