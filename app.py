@@ -123,6 +123,24 @@ def get_risk_level(probability: float) -> str:
     return "Very High"
 
 
+@app.route("/", methods=["GET", "HEAD"])
+def index():
+    """Landing route so hosted API root is visibly healthy."""
+    return (
+        jsonify(
+            {
+                "service": "Diabetes Risk API",
+                "status": "ok",
+                "endpoints": {
+                    "health": "/health",
+                    "predict": "/predict",
+                },
+            }
+        ),
+        200,
+    )
+
+
 @app.route("/predict", methods=["POST"])
 def predict():
     """Predict diabetes from patient health metrics."""
