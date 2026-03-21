@@ -15,6 +15,8 @@ import {
 
 function DiabetesReport({ result, inputData }) {
   const [showModal, setShowModal] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [reportError, setReportError] = useState("");
   const [patientDetails, setPatientDetails] = useState({
     fullName: "",
     sex: inputData?.Sex || "",
@@ -117,63 +119,77 @@ function DiabetesReport({ result, inputData }) {
   };
 
   const downloadReport = async () => {
-    const element = buildExportNode();
-    if (!element) {
-      return;
-    }
+    setReportError("");
+    setIsDownloading(true);
 
-    const html2pdf = (await import("html2pdf.js")).default;
-
-    const opt = {
-      margin: [18, 8, 16, 8],
-      filename: "Diabetes_Risk_Report.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: {
-        scale: 1.5,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-      },
-      pagebreak: { mode: ["css", "legacy"] },
-      jsPDF: { orientation: "portrait", unit: "mm", format: "a4" },
-    };
-
-    const worker = html2pdf().set(opt).from(element).toPdf();
-
-    await worker.get("pdf").then((pdf) => {
-      const pageCount = pdf.internal.getNumberOfPages();
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-
-      for (let page = 1; page <= pageCount; page += 1) {
-        pdf.setPage(page);
-
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(10);
-        pdf.setTextColor(31, 41, 55);
-        pdf.text("Diabetes Risk Assessment Report", 8, 9);
-
-        pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(8);
-        pdf.setTextColor(75, 85, 99);
-        pdf.text(`Patient: ${patientName}`, 8, 13);
-        pdf.text(`Patient ID: ${patientId}`, 70, 13);
-        pdf.text(reportDateTime, pageWidth - 8, 13, { align: "right" });
-
-        pdf.setDrawColor(203, 213, 225);
-        pdf.line(8, 15, pageWidth - 8, 15);
-
-        pdf.setDrawColor(203, 213, 225);
-        pdf.line(8, pageHeight - 11, pageWidth - 8, pageHeight - 11);
-        pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(8);
-        pdf.setTextColor(100, 116, 139);
-        pdf.text(`Page ${page} of ${pageCount}`, pageWidth - 8, pageHeight - 6, {
-          align: "right",
-        });
+    try {
+      const element = buildExportNode();
+      if (!element) {
+        throw new Error("Report content not ready yet. Please try again.");
       }
-    });
 
-    await worker.save();
+      const html2pdfModule = await import("html2pdf.js");
+      const html2pdf = html2pdfModule.default || html2pdfModule;
+
+      if (typeof html2pdf !== "function") {
+        throw new Error("PDF generator failed to load.");
+      }
+
+      const opt = {
+        margin: [18, 8, 16, 8],
+        filename: "Diabetes_Risk_Report.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: {
+          scale: 1.5,
+          useCORS: true,
+          backgroundColor: "#ffffff",
+        },
+        pagebreak: { mode: ["css", "legacy"] },
+        jsPDF: { orientation: "portrait", unit: "mm", format: "a4" },
+      };
+
+      const worker = html2pdf().set(opt).from(element).toPdf();
+
+      await worker.get("pdf").then((pdf) => {
+        const pageCount = pdf.internal.getNumberOfPages();
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        for (let page = 1; page <= pageCount; page += 1) {
+          pdf.setPage(page);
+
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(10);
+          pdf.setTextColor(31, 41, 55);
+          pdf.text("Diabetes Risk Assessment Report", 8, 9);
+
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(8);
+          pdf.setTextColor(75, 85, 99);
+          pdf.text(`Patient: ${patientName}`, 8, 13);
+          pdf.text(`Patient ID: ${patientId}`, 70, 13);
+          pdf.text(reportDateTime, pageWidth - 8, 13, { align: "right" });
+
+          pdf.setDrawColor(203, 213, 225);
+          pdf.line(8, 15, pageWidth - 8, 15);
+
+          pdf.setDrawColor(203, 213, 225);
+          pdf.line(8, pageHeight - 11, pageWidth - 8, pageHeight - 11);
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(8);
+          pdf.setTextColor(100, 116, 139);
+          pdf.text(`Page ${page} of ${pageCount}`, pageWidth - 8, pageHeight - 6, {
+            align: "right",
+          });
+        }
+      });
+
+      await worker.save();
+    } catch (error) {
+      setReportError(error?.message || "Failed to generate PDF. Please try again.");
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const generatePrint = () => {
@@ -629,6 +645,7 @@ function DiabetesReport({ result, inputData }) {
             </button>
             <button
               onClick={downloadReport}
+              disabled={isDownloading}
               className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition flex items-center gap-2"
             >
               <svg
@@ -644,9 +661,12 @@ function DiabetesReport({ result, inputData }) {
                   d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                 />
               </svg>
-              Download PDF
+              {isDownloading ? "Generating PDF..." : "Download PDF"}
             </button>
           </div>
+          {reportError && (
+            <div className="px-6 pb-5 text-sm font-semibold text-red-600">{reportError}</div>
+          )}
         </div>
       </div>
     </>
