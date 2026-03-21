@@ -20,7 +20,7 @@ function getMarkerStatus(value, min, max) {
 function DiabetesResultCard({ result, patientData }) {
   if (!result) {
     return (
-      <div className="rounded-2xl border border-dashed border-slate-300 bg-white/60 p-5 text-slate-600">
+      <div className="rounded-[1.6rem] border border-dashed border-slate-300 bg-white/75 p-6 text-slate-600 glass-panel">
         Prediction result will appear here.
       </div>
     );
@@ -39,42 +39,42 @@ function DiabetesResultCard({ result, patientData }) {
 
   return (
     <div
-      className={`rounded-2xl border p-6 shadow-md ${
+      className={`rounded-[1.6rem] border p-6 shadow-[0_20px_40px_rgba(15,23,42,0.08)] ${
         isHighRisk
-          ? "border-red-200 bg-red-50"
-          : "border-green-200 bg-green-50"
+          ? "border-rose-200 bg-gradient-to-br from-rose-50 to-white"
+          : "border-emerald-200 bg-gradient-to-br from-emerald-50 to-white"
       }`}
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-800">Clinical Risk Summary</h2>
+          <h2 className="text-xl font-black text-slate-900">Clinical Risk Summary</h2>
           <p className={`mt-3 text-2xl font-bold ${
             isHighRisk ? "text-red-700" : "text-green-700"
           }`}>
             {result.prediction}
           </p>
-          <p className={`mt-1 text-sm font-semibold ${riskColorClass}`}>
+          <p className={`mt-1 text-sm font-bold ${riskColorClass}`}>
             Risk Level: {result.risk_level || "N/A"}
           </p>
         </div>
-        <div className={`rounded-full p-3 ${
-          isHighRisk ? "bg-red-100" : "bg-green-100"
+        <div className={`rounded-2xl p-3 ${
+          isHighRisk ? "bg-red-100" : "bg-emerald-100"
         }`}>
-          <span className={`text-2xl ${isHighRisk ? "text-red-700" : "text-green-700"}`}>
+          <span className={`text-2xl font-black ${isHighRisk ? "text-red-700" : "text-emerald-700"}`}>
             {isHighRisk ? "!" : "OK"}
           </span>
         </div>
       </div>
 
       <div className="mt-4">
-        <div className="mb-2 flex items-center justify-between text-xs font-semibold text-slate-700">
+        <div className="mb-2 flex items-center justify-between text-xs font-bold uppercase tracking-[0.08em] text-slate-700">
           <span>Diabetes probability</span>
           <span>{riskPercentage.toFixed(1)}%</span>
         </div>
-        <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200">
+        <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200/80">
           <div
             className={`h-3 rounded-full transition-all ${
-              riskPercentage >= 50 ? "bg-red-500" : "bg-amber-500"
+              riskPercentage >= 50 ? "bg-gradient-to-r from-rose-500 to-red-600" : "bg-gradient-to-r from-amber-400 to-orange-500"
             }`}
             style={{ width: `${Math.min(100, Math.max(0, riskPercentage))}%` }}
           />
@@ -82,18 +82,18 @@ function DiabetesResultCard({ result, patientData }) {
       </div>
 
       <div className="mt-3 grid grid-cols-2 gap-3">
-        <div className="rounded-lg bg-white/70 p-3">
+        <div className="rounded-xl border border-rose-100 bg-white/85 p-3">
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Diabetes</p>
           <p className="mt-1 text-lg font-bold text-red-700">{riskPercentage.toFixed(1)}%</p>
         </div>
-        <div className="rounded-lg bg-white/70 p-3">
+        <div className="rounded-xl border border-emerald-100 bg-white/85 p-3">
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">No Diabetes</p>
           <p className="mt-1 text-lg font-bold text-green-700">{noRiskPercentage.toFixed(1)}%</p>
         </div>
       </div>
 
       {patientData && (
-        <div className="mt-4 rounded-lg bg-white/70 p-4">
+        <div className="mt-4 rounded-2xl border border-slate-200 bg-white/85 p-4">
           <h3 className="text-sm font-bold text-slate-800">Clinical Marker Review</h3>
           <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {Object.entries(markerRanges).map(([key, meta]) => {
@@ -105,7 +105,7 @@ function DiabetesResultCard({ result, patientData }) {
                   : "text-red-700 bg-red-100";
 
               return (
-                <div key={key} className="rounded-lg border border-slate-200 bg-white p-3">
+                <div key={key} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
                   <p className="text-xs font-semibold text-slate-500">{meta.label}</p>
                   <p className="mt-1 text-base font-bold text-slate-800">{rawValue}</p>
                   <p className="mt-1 text-xs text-slate-500">
@@ -121,7 +121,7 @@ function DiabetesResultCard({ result, patientData }) {
         </div>
       )}
 
-      <div className="mt-4 border-t border-opacity-20 pt-4">
+      <div className="mt-4 border-t border-slate-200 pt-4">
         <p className={`text-sm font-semibold ${
           isHighRisk ? "text-red-700" : "text-green-700"
         }`}>
@@ -131,12 +131,12 @@ function DiabetesResultCard({ result, patientData }) {
         </p>
       </div>
 
-      <div className="mt-4 rounded-lg bg-white/50 p-3 text-xs text-slate-600">
+      <div className="mt-4 rounded-xl border border-slate-200 bg-white/80 p-3 text-xs text-slate-600">
         ⓘ <strong>Important:</strong> This is just a model prediction, not a real diagnosis. You should talk to a doctor before making any decisions based on this.
       </div>
 
       {result.model_metadata && (
-        <div className="mt-3 rounded-lg bg-slate-100 p-3 text-xs text-slate-600">
+        <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600">
           <p>
             <strong>Model:</strong> {result.model_metadata.model_type}
           </p>

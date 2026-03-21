@@ -219,7 +219,7 @@ function DiabetesReport({ result, inputData }) {
     return (
       <button
         onClick={() => setShowModal(true)}
-        className="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center gap-2"
+        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-700 to-teal-600 px-4 py-3 text-sm font-extrabold uppercase tracking-[0.08em] text-white shadow-[0_10px_22px_rgba(13,148,136,0.35)] transition hover:brightness-105"
       >
         <svg
           className="w-5 h-5"

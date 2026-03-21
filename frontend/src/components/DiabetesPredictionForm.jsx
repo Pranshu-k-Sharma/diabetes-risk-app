@@ -226,14 +226,14 @@ function DiabetesPredictionForm({ onPredict, loading }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="rounded-xl border border-slate-200 bg-white p-3">
-        <label className="block text-sm font-semibold text-slate-700">Sex</label>
-        <p className="mt-1 text-xs text-slate-600">
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="rounded-2xl border border-cyan-100 bg-gradient-to-br from-white to-cyan-50/60 p-4 sm:p-5">
+        <label className="block text-sm font-bold uppercase tracking-[0.12em] text-cyan-900">Sex</label>
+        <p className="mt-2 text-xs leading-relaxed text-slate-600">
           "Number of Pregnancies" is asked only for female because this model was trained with that feature.
         </p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700">
+        <div className="mt-4 flex flex-wrap gap-2">
+          <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-cyan-300 hover:bg-cyan-50">
             <input
               type="radio"
               name="Sex"
@@ -243,7 +243,7 @@ function DiabetesPredictionForm({ onPredict, loading }) {
             />
             Female
           </label>
-          <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700">
+          <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-cyan-300 hover:bg-cyan-50">
             <input
               type="radio"
               name="Sex"
@@ -253,7 +253,7 @@ function DiabetesPredictionForm({ onPredict, loading }) {
             />
             Male
           </label>
-          <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700">
+          <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-cyan-300 hover:bg-cyan-50">
             <input
               type="radio"
               name="Sex"
@@ -267,8 +267,8 @@ function DiabetesPredictionForm({ onPredict, loading }) {
         {errors.Sex && <p className="mt-2 text-xs text-red-600">{errors.Sex}</p>}
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-        <p className="text-sm font-semibold text-slate-700">Use Real-World Sample Data</p>
+      <div className="rounded-2xl border border-amber-100 bg-gradient-to-br from-amber-50 to-orange-50 p-4 sm:p-5">
+        <p className="text-sm font-bold uppercase tracking-[0.12em] text-amber-900">Use Real-World Sample Data</p>
         <p className="mt-1 text-xs text-slate-600">
           Choose a preset to auto-fill all required clinical fields.
         </p>
@@ -276,29 +276,29 @@ function DiabetesPredictionForm({ onPredict, loading }) {
           <button
             type="button"
             onClick={() => applyPreset("baselineAdult")}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
+            className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-slate-400 hover:bg-slate-100"
           >
             Baseline Adult
           </button>
           <button
             type="button"
             onClick={() => applyPreset("prediabetesPattern")}
-            className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700 transition hover:bg-amber-100"
+            className="rounded-xl border border-amber-300 bg-amber-100/70 px-3 py-2 text-xs font-bold text-amber-800 transition hover:bg-amber-100"
           >
             Prediabetes Pattern
           </button>
           <button
             type="button"
             onClick={() => applyPreset("highRiskPattern")}
-            className="rounded-lg border border-red-300 bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-700 transition hover:bg-red-100"
+            className="rounded-xl border border-rose-300 bg-rose-100/70 px-3 py-2 text-xs font-bold text-rose-800 transition hover:bg-rose-100"
           >
             High-Risk Pattern
           </button>
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-3">
-        <p className="text-sm font-semibold text-slate-700">Input Availability Guide</p>
+      <div className="rounded-2xl border border-slate-200 bg-white/90 p-4 sm:p-5">
+        <p className="text-sm font-bold uppercase tracking-[0.12em] text-slate-700">Input Availability Guide</p>
         <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold">
           <span className="rounded-full border border-blue-200 bg-blue-100 px-2 py-0.5 text-blue-700">
             History-based
@@ -319,9 +319,9 @@ function DiabetesPredictionForm({ onPredict, loading }) {
         {fields
           .filter(({ key }) => key !== "Pregnancies" || formData.Sex === "female")
           .map(({ key, label, placeholder, step, reference, source, testInfo }) => (
-          <div key={key}>
+          <div key={key} className="rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
             <div className="mb-1 flex items-center justify-between gap-2">
-              <label className="block text-sm font-semibold text-slate-700">
+              <label className="block text-sm font-bold text-slate-800">
                 {label}
               </label>
               <span
@@ -339,13 +339,13 @@ function DiabetesPredictionForm({ onPredict, loading }) {
               onChange={handleChange}
               placeholder={placeholder}
               step={step || "1"}
-              className={`w-full rounded-lg border p-2 text-sm outline-none transition ${
+              className={`w-full rounded-xl border bg-white px-3 py-2 text-sm outline-none transition ${
                 errors[key]
                   ? "border-red-500 focus:ring-2 focus:ring-red-200"
-                  : "border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  : "border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-200"
               }`}
             />
-            <p className="mt-1 text-xs text-slate-500">{reference}</p>
+            <p className="mt-1 text-xs font-semibold text-slate-500">{reference}</p>
             <p className="mt-1 text-xs text-slate-500">{testInfo}</p>
             {errors[key] && (
               <p className="mt-1 text-xs text-red-600">{errors[key]}</p>
@@ -357,7 +357,7 @@ function DiabetesPredictionForm({ onPredict, loading }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-lg bg-primary px-4 py-3 font-semibold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-60 sm:px-6 sm:py-3"
+        className="w-full rounded-xl bg-gradient-to-r from-teal-700 to-cyan-600 px-4 py-3 text-sm font-extrabold uppercase tracking-[0.1em] text-white shadow-[0_12px_24px_rgba(13,148,136,0.35)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60 sm:px-6 sm:py-3"
       >
         {loading ? "Predicting..." : "Predict Diabetes Risk"}
       </button>

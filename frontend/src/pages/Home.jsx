@@ -36,30 +36,61 @@ function Home() {
   };
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10">
-      <div className="rounded-3xl bg-white/80 p-6 shadow-lg backdrop-blur-sm sm:p-8">
-        <h1 className="text-3xl font-black tracking-tight text-slate-800 sm:text-4xl">
-          AI Diabetes Risk Prediction
-        </h1>
-        <p className="mt-2 text-slate-600">
-          Enter your health numbers and get a risk estimate. Shows you the prediction plus confidence.
-        </p>
-        <p className="mt-1 text-xs text-slate-500">
-          API endpoint: {API_BASE_URL}
-        </p>
+    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <section className="rise-in rounded-[2rem] border border-white/80 bg-white/65 p-6 shadow-[0_22px_50px_rgba(15,23,42,0.08)] backdrop-blur-md sm:p-10">
+        <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+          <div>
+            <p className="inline-flex items-center rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-teal-700">
+              Clinical Decision Support Prototype
+            </p>
+            <h1 className="mt-4 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl">
+              Diabetes Risk Intelligence Dashboard
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+              Submit patient health markers and get an interpretable risk estimate with probability breakdown,
+              marker context, and export-ready summary.
+            </p>
+          </div>
 
-        <div className="mt-6 grid gap-5">
+          <div className="rounded-2xl border border-teal-100 bg-gradient-to-br from-teal-50 via-cyan-50 to-amber-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Connected Endpoint</p>
+            <p className="mt-2 break-all text-sm font-semibold text-slate-700">{API_BASE_URL}</p>
+            <p className="mt-3 text-xs text-slate-500">Runs against your deployed API or localhost fallback.</p>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-xl border border-white/80 bg-white/85 p-3 text-sm font-semibold text-slate-700">
+            Probability + risk bands
+          </div>
+          <div className="rounded-xl border border-white/80 bg-white/85 p-3 text-sm font-semibold text-slate-700">
+            Clinical marker review
+          </div>
+          <div className="rounded-xl border border-white/80 bg-white/85 p-3 text-sm font-semibold text-slate-700">
+            PDF-ready detailed report
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-6 grid gap-5">
+        <div className="glass-panel rise-in stagger-1 rounded-[1.6rem] p-4 sm:p-6">
           <DiabetesPredictionForm onPredict={handlePredict} loading={loading} />
+        </div>
 
-          {error && (
-            <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-              {error}
-            </div>
-          )}
+        {error && (
+          <div className="rise-in stagger-2 rounded-2xl border border-rose-200 bg-rose-50/95 p-4 text-sm font-semibold text-rose-700 shadow-sm">
+            {error}
+          </div>
+        )}
 
+        <div className="rise-in stagger-2">
           <DiabetesResultCard result={result} patientData={lastInput} />
         </div>
-      </div>
+      </section>
+
+      <p className="mt-4 text-center text-xs text-slate-500">
+        This tool supports screening conversations and does not replace clinical diagnosis.
+      </p>
     </main>
   );
 }
