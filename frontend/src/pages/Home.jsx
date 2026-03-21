@@ -38,25 +38,17 @@ function Home() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
       <section className="rise-in rounded-[2rem] border border-white/80 bg-white/65 p-6 shadow-[0_22px_50px_rgba(15,23,42,0.08)] backdrop-blur-md sm:p-10">
-        <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-end">
-          <div>
-            <p className="inline-flex items-center rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-teal-700">
-              Clinical Decision Support Prototype
-            </p>
-            <h1 className="mt-4 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl">
-              Diabetes Risk Intelligence Dashboard
-            </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
-              Submit patient health markers and get an interpretable risk estimate with probability breakdown,
-              marker context, and export-ready summary.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-teal-100 bg-gradient-to-br from-teal-50 via-cyan-50 to-amber-50 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Connected Endpoint</p>
-            <p className="mt-2 break-all text-sm font-semibold text-slate-700">{API_BASE_URL}</p>
-            <p className="mt-3 text-xs text-slate-500">Runs against your deployed API or localhost fallback.</p>
-          </div>
+        <div>
+          <p className="inline-flex items-center rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-teal-700">
+            Clinical Decision Support Prototype
+          </p>
+          <h1 className="mt-4 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl">
+            Diabetes Risk Intelligence Dashboard
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            Submit patient health markers and get an interpretable risk estimate with probability breakdown,
+            marker context, and export-ready summary.
+          </p>
         </div>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-3">

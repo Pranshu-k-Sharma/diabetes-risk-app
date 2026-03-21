@@ -182,7 +182,7 @@ function DiabetesPredictionForm({ onPredict, loading }) {
     const newErrors = {};
 
     if (!formData.Sex) {
-      newErrors.Sex = "Please select sex.";
+      newErrors.Sex = "Please select gender.";
     }
 
     fields.forEach(({ key, min, max }) => {
@@ -228,7 +228,7 @@ function DiabetesPredictionForm({ onPredict, loading }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="rounded-2xl border border-cyan-100 bg-gradient-to-br from-white to-cyan-50/60 p-4 sm:p-5">
-        <label className="block text-sm font-bold uppercase tracking-[0.12em] text-cyan-900">Sex</label>
+        <label className="block text-sm font-bold uppercase tracking-[0.12em] text-cyan-900">Gender</label>
         <p className="mt-2 text-xs leading-relaxed text-slate-600">
           "Number of Pregnancies" is asked only for female because this model was trained with that feature.
         </p>
