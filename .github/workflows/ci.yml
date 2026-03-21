@@ -26,7 +26,7 @@ jobs:
         run: python backend/train_model.py
 
       - name: Run backend tests
-        run: pytest --cov=app --cov-report=term-missing
+        run: PYTHONPATH=. pytest --cov=app --cov-report=term-missing
 
   frontend-build:
     runs-on: ubuntu-latest
