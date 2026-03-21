@@ -4,6 +4,13 @@ import DiabetesPredictionForm from "../components/DiabetesPredictionForm";
 import DiabetesResultCard from "../components/DiabetesResultCard";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const REQUEST_TIMEOUT_MS = 30000;
+
+async function requestPrediction(patientData) {
+  return axios.post(`${API_BASE_URL}/predict`, patientData, {
+    timeout: REQUEST_TIMEOUT_MS,
+  });
+}
 
 function Home() {
   const [result, setResult] = useState(null);
@@ -17,16 +24,28 @@ function Home() {
     setLastInput(patientData);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/predict`, patientData, {
-        timeout: 15000,
-      });
+      const response = await requestPrediction(patientData);
       setResult(response.data);
     } catch (err) {
+      // Render free services may sleep; wake once and retry prediction.
+      const isRetryable = err.code === "ECONNABORTED" || !err.response;
+      if (isRetryable) {
+        try {
+          await axios.get(`${API_BASE_URL}/health`, { timeout: REQUEST_TIMEOUT_MS });
+          const retryResponse = await requestPrediction(patientData);
+          setResult(retryResponse.data);
+          setError("");
+          return;
+        } catch {
+          // Fall through to user-facing error handling below.
+        }
+      }
+
       let message = err.response?.data?.error || "Failed to fetch prediction.";
       if (err.code === "ECONNABORTED") {
-        message = "Prediction timed out. Please try again.";
+        message = "Prediction timed out. The backend may be waking up. Please try again in a few seconds.";
       } else if (!err.response) {
-        message = "Cannot connect to backend API. Check that backend is running on port 5000.";
+        message = "Cannot connect to backend API right now. If hosted on Render free tier, wait 30-60 seconds and retry.";
       }
       setError(message);
       setResult(null);
