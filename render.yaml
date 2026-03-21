@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: diabetes-risk-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT app:app
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: FLASK_DEBUG
+        value: "false"
+      - key: LOG_LEVEL
+        value: "INFO"
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: MAX_REQUESTS_PER_MINUTE
+        value: "120"

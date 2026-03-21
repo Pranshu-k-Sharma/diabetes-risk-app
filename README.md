@@ -54,12 +54,11 @@ AI Medical Diagnosis Assistant/
 ## Quick Start (easiest way)
 
 ### Option 1: GitHub Codespaces (no setup needed)
-Click this button, wait 2 minutes, then run both servers:
+Click this button, wait 2 minutes, then run one command:
 
 ```bash
-# In the Codespaces terminal:
-python app.py &
-cd frontend && npm run dev
+# In the Codespaces terminal (project root):
+bash start.sh
 ```
 
 Frontend: `http://localhost:5173`  
@@ -170,22 +169,27 @@ Response example:
 
 ## Deployment Plan
 
-### Backend options
-- Render Web Service
-- Railway
-- Fly.io
+### Backend on Render
+1. Open Render and create a new Blueprint deployment.
+2. Connect this GitHub repository.
+3. Render will detect `render.yaml` automatically.
+4. Deploy and copy the backend URL (for example `https://diabetes-risk-api.onrender.com`).
 
-Suggested production command:
+Health check endpoint:
 
-```bash
-gunicorn -w 2 -b 0.0.0.0:5000 app:app
+```text
+https://<your-render-url>/health
 ```
 
-### Frontend options
-- Vercel
-- Netlify
+### Frontend on Vercel
+1. Import the `frontend` directory as a Vercel project.
+2. Framework preset: Vite.
+3. Build command: `npm run build`
+4. Output directory: `dist`
+5. Add environment variable `VITE_API_BASE_URL` with your Render backend URL.
+6. Deploy.
 
-Set `VITE_API_BASE_URL` to your deployed backend URL.
+The `frontend/vercel.json` file is already set for SPA route rewrites.
 
 ## Interview Talking Points
 - Built the whole thing from scratch: model training, REST API, React UI, all wired together and working
